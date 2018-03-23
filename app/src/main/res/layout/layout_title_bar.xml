@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.vivian.apputil.widget.TitleBar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/titleBarView"
+    android:layout_width="match_parent"
+    android:layout_height="44dp"
+    android:background="@color/baseThemeColor"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true" />
+
+
+

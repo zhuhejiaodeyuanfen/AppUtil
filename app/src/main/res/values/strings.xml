@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">AppUtil</string>
+    <string name="title_activity_base">BaseActivity</string>
+
+
+    <string-array name="home_res_list">
+        <item>权限管理</item>
+        <item>聊天</item>
+        <item>视频播放</item>
+    </string-array>
 </resources>
