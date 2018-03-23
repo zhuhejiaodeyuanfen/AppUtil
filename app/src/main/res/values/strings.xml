@@ -7,5 +7,8 @@
         <item>权限管理</item>
         <item>聊天</item>
         <item>视频播放</item>
+        <item>kotlin</item>
+        <item>全面屏切换</item>
+        <item>toast展示</item>
     </string-array>
 </resources>

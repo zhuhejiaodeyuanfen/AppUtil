@@ -49,6 +49,10 @@ public class HomeActivity extends BaseActivity {
                 if (position == 0) {
                     launcher(mContext, PermissionActivity.class);
                 }
+                else if(position==1)
+                {
+                    launcher(mContext,WeChatActivity.class);
+                }
             }
         });
 

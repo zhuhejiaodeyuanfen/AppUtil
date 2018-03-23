@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginLeft="70dp"
+    android:layout_marginRight="10dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="下午7:53" />
+
+    <TextView
+        android:padding="15dp"
+        android:layout_alignTop="@+id/ivUser"
+        android:layout_toLeftOf="@+id/ivUser"
+        android:layout_marginRight="5dp"
+        android:textColor="@color/black"
+        android:layout_below="@id/tvTime"
+        android:text="sfddddddddddfsdfsdfsssssssssssssssssssssssssssssssssssss"
+        android:background="@drawable/btn_my_text_pressed"
+        android:id="@+id/tvContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+
+        android:layout_marginTop="5dp"
+
+        android:layout_below="@id/tvTime"
+        android:id="@+id/ivUser"
+        android:layout_alignParentRight="true"
+        android:layout_width="45dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_height="45dp" />
+
+
+</RelativeLayout>
