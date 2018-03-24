@@ -4,6 +4,10 @@ import android.app.Application;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
+import android.media.MediaRecorder;
+import android.util.Log;
+
+import com.vivian.apputil.view.BaseActivity;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,6 +22,11 @@ import java.util.List;
 public class CameraManager {
 
     private Application context;
+    /**
+     * 视频录制
+     */
+    private MediaRecorder mMediaRecorder;
+    private Camera.Parameters mParameters;
     /**
      * 相机闪光状态
      */
@@ -152,7 +161,7 @@ public class CameraManager {
             Camera.Size optimalPreSize = getOptimalCameraSize(previewSizes, width, height);
 //            Camera.Size optimalPicSize = getOptimalSize(pictureSizes, width, height);
 //            Camera.Size optimalPreSize = getOptimalSize(previewSizes, width, height);
-  //          LogUtils.i("TextureSize "+width+" "+height+" optimalSize pic " + optimalPicSize.width + " " + optimalPicSize.height + " pre " + optimalPreSize.width + " " + optimalPreSize.height);
+            //          LogUtils.i("TextureSize "+width+" "+height+" optimalSize pic " + optimalPicSize.width + " " + optimalPicSize.height + " pre " + optimalPreSize.width + " " + optimalPreSize.height);
             parameters.setPictureSize(optimalPicSize.width, optimalPicSize.height);
             parameters.setPreviewSize(optimalPreSize.width, optimalPreSize.height);
             mProfile.videoFrameWidth = optimalPreSize.width;
@@ -163,44 +172,127 @@ public class CameraManager {
     }
 
     /**
-     *
      * @param sizes 相机support参数
      * @param w
      * @param h
      * @return 最佳Camera size
      */
-    private Camera.Size getOptimalCameraSize(List<Camera.Size> sizes, int w, int h){
+    private Camera.Size getOptimalCameraSize(List<Camera.Size> sizes, int w, int h) {
         sortCameraSize(sizes);
-        int position = binarySearch(sizes, w*h);
+        int position = binarySearch(sizes, w * h);
         return sizes.get(position);
     }
 
 
+    /***
+     * 拍照
+     * @param callback
+     * @param mContext
+     */
+    public void takePhoto(Camera.PictureCallback callback, BaseActivity mContext) {
+        if (mCamera != null) {
+            try {
+                mCamera.takePicture(null, null, callback);
+            } catch (Exception e) {
+                mContext.showToast("拍摄失败");
+
+            }
+        }
+    }
+
+    public boolean isCameraFrontFacing() {
+        return cameraFacing == Camera.CameraInfo.CAMERA_FACING_FRONT;
+    }
+
     /**
-     *
+     * 设置对焦类型
+     * @param cameraType
+     */
+    public void setCameraType(int cameraType) {
+        this.cameraType = cameraType;
+        if (mCamera != null) {//拍摄视频时
+            if (cameraFacing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+                Camera.Parameters parameters = mCamera.getParameters();
+                List<String> focusModes = parameters.getSupportedFocusModes();
+                if (focusModes != null) {
+                    if (cameraType == 0) {
+                        if (focusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+                            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+                        }
+                    } else {
+                        if (focusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)) {
+                            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 开始录制视频
+     */
+    public void startMediaRecord(String savePath) {
+        if (mCamera == null) {
+            return;
+        }
+        if (mMediaRecorder == null) {
+            mMediaRecorder = new MediaRecorder();
+        } else {
+            mMediaRecorder.reset();
+        }
+
+
+        if (isCameraFrontFacing()) {
+            mMediaRecorder.setOrientationHint(270);
+            Log.i("wujie","front");
+        }else
+        {
+            Log.i("wujie","back");
+            mMediaRecorder.setOrientationHint(90);
+        }
+        mParameters = mCamera.getParameters();
+        mCamera.unlock();
+        mMediaRecorder.setCamera(mCamera);
+        mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+        mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        // 设置录像参数
+        mMediaRecorder.setProfile(CamcorderProfile.get(AppConfig.VIDEOSIZE));
+        try {
+            mMediaRecorder.setOutputFile(savePath);
+            mMediaRecorder.prepare();
+            mMediaRecorder.start();
+        } catch (Exception e) {
+
+        }
+
+    }
+
+
+    /**
      * @param sizes
      * @param targetNum 要比较的数
      * @return
      */
-    private int binarySearch(List<Camera.Size> sizes,int targetNum){
+    private int binarySearch(List<Camera.Size> sizes, int targetNum) {
         int targetIndex;
-        int left = 0,right;
+        int left = 0, right;
         int length = sizes.size();
-        for (right = length-1;left != right;){
-            int midIndex = (right + left)/2;
+        for (right = length - 1; left != right; ) {
+            int midIndex = (right + left) / 2;
             int mid = right - left;
             Camera.Size size = sizes.get(midIndex);
             int midValue = size.width * size.height;
-            if (targetNum == midValue){
+            if (targetNum == midValue) {
                 return midIndex;
             }
-            if (targetNum > midValue){
+            if (targetNum > midValue) {
                 left = midIndex;
-            }else {
+            } else {
                 right = midIndex;
             }
 
-            if (mid <= 1){
+            if (mid <= 1) {
                 break;
             }
         }
@@ -208,25 +300,28 @@ public class CameraManager {
         Camera.Size leftSize = sizes.get(left);
         int rightNum = rightSize.width * rightSize.height;
         int leftNum = leftSize.width * leftSize.height;
-        targetIndex = Math.abs((rightNum - leftNum)/2) > Math.abs(rightNum - targetNum) ? right : left;
+        targetIndex = Math.abs((rightNum - leftNum) / 2) > Math.abs(rightNum - targetNum) ? right : left;
         return targetIndex;
     }
+
     /**
      * 排序
+     *
      * @param previewSizes
      */
-    private void sortCameraSize(List<Camera.Size> previewSizes){
+    private void sortCameraSize(List<Camera.Size> previewSizes) {
         Collections.sort(previewSizes, new Comparator<Camera.Size>() {
             @Override
             public int compare(Camera.Size size1, Camera.Size size2) {
                 int compareHeight = size1.height - size2.height;
-                if (compareHeight == 0){
-                    return (size1.width == size2.width ? 0 :(size1.width > size2.width ? 1:-1));
+                if (compareHeight == 0) {
+                    return (size1.width == size2.width ? 0 : (size1.width > size2.width ? 1 : -1));
                 }
                 return compareHeight;
             }
         });
     }
+
     /**
      * 集合不为空
      *

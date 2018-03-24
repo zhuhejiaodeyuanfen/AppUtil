@@ -9,6 +9,7 @@ import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GestureDetectorCompat;
+import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -60,6 +61,11 @@ public class CameraProgressBar extends View {
      * 最大进度
      */
     private int maxProgress = 100;
+
+    /**
+     * 记录上一次Y轴坐标点
+     */
+    private float mLastY;
     /**
      * paint
      */
@@ -77,6 +83,10 @@ public class CameraProgressBar extends View {
      * 滑动单位
      */
     private int mTouchSlop;
+    /**
+     * 是否产生滑动
+     */
+    private boolean isBeingDrag;
     /**
      * s
      */
@@ -164,8 +174,53 @@ public class CameraProgressBar extends View {
         });
         gestureDetectorCompat.setIsLongpressEnabled(true);
 
-        setProgress(50);
-        maxProgress=100;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (!isLongScale) {
+            return super.onTouchEvent(event);
+        }
+        this.gestureDetectorCompat.onTouchEvent(event);
+        switch(MotionEventCompat.getActionMasked(event)) {
+            case MotionEvent.ACTION_DOWN:
+                isLongClick = false;
+                isBeingDrag = false;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (isLongClick) {
+                    float y = event.getY();
+                    if (isBeingDrag) {
+                        boolean isUpScroll = y < mLastY;
+                        mLastY = y;
+                        if (this.onProgressTouchListener != null) {
+                            this.onProgressTouchListener.onZoom(isUpScroll);
+                        }
+                    } else {
+                        isBeingDrag = Math.abs(y - mLastY) > mTouchSlop;
+                    }
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                isBeingDrag = false;
+                if (isLongClick) {
+                    isLongClick = false;
+                    postInvalidate();
+                    if (this.onProgressTouchListener != null) {
+                        this.onProgressTouchListener.onLongClickUp(this);
+                    }
+                }
+                break;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                if (isLongClick) {
+                    if (this.onProgressTouchListener != null) {
+                        this.onProgressTouchListener.onPointerDown(event.getRawX(), event.getRawY());
+                    }
+                }
+                break;
+        }
+        return true;
     }
 
 
