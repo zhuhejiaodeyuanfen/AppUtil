@@ -4,11 +4,22 @@
 
 
     <string-array name="home_res_list">
-        <item>权限管理</item>
-        <item>聊天</item>
-        <item>视频播放</item>
-        <item>kotlin</item>
-        <item>全面屏切换</item>
-        <item>toast展示</item>
+        <item>0-权限管理</item>
+        <item>1-聊天</item>
+        <item>2-视频播放</item>
+        <item>3-kotlin</item>
+        <item>4-全面屏切换</item>
+        <item>5-toast展示</item>
+        <item>6-进度条</item>
+        <item>7-通讯录</item>
+        <item>8-相册选择</item>
+        <item>9-自定义相机</item>
+        <item>10-画板</item>
+        <item>11-pb</item>
+        <item>12-网速测试</item>
     </string-array>
+
+    <string name="title_activity_fullscreen_camera">FullscreenCameraActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

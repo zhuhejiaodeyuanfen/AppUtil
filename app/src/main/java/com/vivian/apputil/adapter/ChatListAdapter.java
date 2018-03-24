@@ -14,10 +14,15 @@ import com.vivian.apputil.util.AppDateUtil;
  * desc: 聊天数据适配器
  * Version: 1.0
  * <p>
- * 时间显示规则
- * 当天的消息，以每5分钟为一个跨度的显示时间；
- * 消息超过1天、小于1周，显示星期+收发消息的时间；
- * 消息大于1周，显示手机收发时间的日期。
+ * 仿微信聊天时间格式化显示。
+ * 在同一年的显示规则：
+ * 如果是当天显示格式为 HH:mm 例：14:45
+ * 如果是昨天,显示格式为 昨天 HH:mm 例：昨天 13:12
+ * 如果是在同一周 显示格式为 周一 HH:mm 例：周一14:05
+ * 如果不是同一周则显示格式为 M月d日 早上或者其它 HH:mm 例： 2月5日 早上10:10
+ * <p>
+ * 不在同一年的显示规则：
+ * 显示格式为 yyyy年M月d日 晚上或者其它 HH:mm 例：2016年2月5日 晚上18:05
  */
 public class ChatListAdapter extends MultiRecyclerViewAdapter<WeChatBean> {
 

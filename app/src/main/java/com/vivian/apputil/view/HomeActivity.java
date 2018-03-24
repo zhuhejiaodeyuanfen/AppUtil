@@ -46,13 +46,18 @@ public class HomeActivity extends BaseActivity {
         homeListAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.IOnItemClick() {
             @Override
             public void onItemClick(View view, int position) {
-                if (position == 0) {
-                    launcher(mContext, PermissionActivity.class);
+                switch (position) {
+                    case 0:
+                        launcher(mContext, PermissionActivity.class);
+                        break;
+                    case 1:
+                        launcher(mContext, WeChatActivity.class);
+                        break;
+                    case 9:
+                        launcher(mContext, MyCameraActivity.class);
+                        break;
                 }
-                else if(position==1)
-                {
-                    launcher(mContext,WeChatActivity.class);
-                }
+
             }
         });
 

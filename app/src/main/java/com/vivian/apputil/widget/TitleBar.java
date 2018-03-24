@@ -64,8 +64,10 @@ public class TitleBar extends FrameLayout {
         rightClickView = findViewById(R.id.rightClickView);
         tvLeft = findViewById(R.id.tvLeft);
         tvRight = findViewById(R.id.tvRight);
+        tvTitle = findViewById(R.id.tvTitle);
         ivLeft = findViewById(R.id.ivLeft);
         ivRight = findViewById(R.id.ivRight);
+        addLeftClick(leftClickView);
     }
 
     /**
