@@ -7,6 +7,7 @@ import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.util.Log;
 
+import com.vivian.apputil.util.file.FileUtils;
 import com.vivian.apputil.view.BaseActivity;
 
 import java.util.Collections;
@@ -101,6 +102,29 @@ public class CameraManager {
     }
 
     /**
+     * 开启预览,前提是camera初始化了
+     */
+    public void restartPreview() {
+        if (mCamera == null) return;
+        try {
+            Camera.Parameters parameters = mCamera.getParameters();
+            int zoom = parameters.getZoom();
+            if (zoom > 0) {
+                parameters.setZoom(0);
+                mCamera.setParameters(parameters);
+            }
+            mCamera.startPreview();
+        } catch (Exception e) {
+//            LogUtils.i(e);
+            if (mCamera != null) {
+                mCamera.release();
+                mCamera = null;
+            }
+        }
+    }
+
+
+    /**
      * 释放摄像头
      */
     public void closeCamera() {
@@ -164,6 +188,8 @@ public class CameraManager {
             //          LogUtils.i("TextureSize "+width+" "+height+" optimalSize pic " + optimalPicSize.width + " " + optimalPicSize.height + " pre " + optimalPreSize.width + " " + optimalPreSize.height);
             parameters.setPictureSize(optimalPicSize.width, optimalPicSize.height);
             parameters.setPreviewSize(optimalPreSize.width, optimalPreSize.height);
+            FileUtils.MAX_WIDTH=optimalPreSize.height;
+            FileUtils.MAX_HEIGHT=optimalPreSize.width;
             mProfile.videoFrameWidth = optimalPreSize.width;
             mProfile.videoFrameHeight = optimalPreSize.height;
             mProfile.videoBitRate = 5000000;//此参数主要决定视频拍出大小
@@ -257,7 +283,7 @@ public class CameraManager {
         mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
         mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         // 设置录像参数
-        mMediaRecorder.setProfile(CamcorderProfile.get(AppConfig.VIDEOSIZE));
+        mMediaRecorder.setProfile(mProfile);
         try {
             mMediaRecorder.setOutputFile(savePath);
             mMediaRecorder.prepare();
@@ -267,6 +293,46 @@ public class CameraManager {
         }
 
     }
+
+
+    /**
+     * 停止录制
+     */
+    public void stopMediaRecord() {
+        this.cameraType = 0;
+        stopRecorder();
+        releaseMediaRecorder();
+    }
+
+    private void stopRecorder() {
+        if (mMediaRecorder != null) {
+            try {
+                mMediaRecorder.stop();
+            } catch (Exception e) {
+                e.printStackTrace();
+//                LogUtils.i(e);
+            }
+
+        }
+    }
+
+    private void releaseMediaRecorder() {
+        if (mMediaRecorder != null) {
+            try {
+                mMediaRecorder.reset();
+                mMediaRecorder.release();
+                mMediaRecorder = null;
+                mCamera.lock();
+            } catch (Exception e) {
+                e.printStackTrace();
+//                LogUtils.i(e);
+            }
+        }
+    }
+
+
+
+
 
 
     /**

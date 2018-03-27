@@ -38,11 +38,11 @@ public class FileUtils {
     /**
      * 限制图片最大宽度进行压缩
      */
-    private static final int MAX_WIDTH = 720;
+    public static int MAX_WIDTH;
     /**
      * 限制图片最大高度进行压缩
      */
-    private static final int MAX_HEIGHT = 1280;
+    public static int MAX_HEIGHT;
     /**
      * 上传最大图片限制
      */
@@ -123,6 +123,7 @@ public class FileUtils {
 
     /**
      * jpg文件名
+     *
      * @param context
      * @return
      */
@@ -132,6 +133,7 @@ public class FileUtils {
 
     /**
      * mp4文件名
+     *
      * @param context
      * @return
      */
@@ -141,6 +143,7 @@ public class FileUtils {
 
     /**
      * 保存拍摄图片
+     *
      * @param photoPath
      * @param data
      * @param isFrontFacing 是否为前置拍摄
@@ -175,38 +178,31 @@ public class FileUtils {
 
     /**
      * 把字节流按照图片方式大小进行压缩
-     * @param datas
+     *
+     * @param data
      * @param w
      * @param h
      * @return
      */
-    public static Bitmap compressBitmap(byte[] datas, int w, int h) {
-        if (datas != null) {
-            BitmapFactory.Options opts = new BitmapFactory.Options();
-            opts.inJustDecodeBounds = true;
-            BitmapFactory.decodeByteArray(datas, 0, datas.length, opts);
-            if (opts.outWidth != 0 && opts.outHeight != 0) {
-//                LogUtils.i(opts.outWidth +" "+opts.outHeight);
-                int scaleX = opts.outWidth / w;
-                int scaleY = opts.outHeight / h;
-                int scale = 1;
-                if (scaleX >= scaleY && scaleX >= 1) {
-                    scale = scaleX;
-                }
-                if (scaleX < scaleY && scaleY >= 1) {
-                    scale = scaleY;
-                }
-                opts.inJustDecodeBounds = false;
-                opts.inSampleSize = scale;
-//                LogUtils.i("compressBitmap inSampleSize "+datas.length+" "+scale);
-                return BitmapFactory.decodeByteArray(datas, 0, datas.length, opts);
-            }
-        }
-        return null;
+    public static Bitmap compressBitmap(byte[] data, int w, int h) {
+        // 获得图片的宽高
+        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        // 计算缩放比例
+        float scaleWidth = ((float) w) / width;
+        float scaleHeight = ((float) h) / height;
+        // 取得想要缩放的matrix参数
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        // 得到新的图片
+        Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+        return newBitmap;
     }
 
     /**
      * 质量压缩图片
+     *
      * @param bitmap
      * @param maxSize
      * @return
@@ -254,7 +250,7 @@ public class FileUtils {
      *
      * @param file
      */
-    public static void delteFiles(File file) {
+    public static void deleteFiles(File file) {
         if (file == null || !file.exists()) return;
         if (file.isDirectory()) {
             File[] files = file.listFiles();

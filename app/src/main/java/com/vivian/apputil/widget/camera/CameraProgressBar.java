@@ -48,11 +48,11 @@ public class CameraProgressBar extends View {
     /**
      * 进度宽
      */
-    private int progressWidth = 15;
+    private int progressWidth = 10;
     /**
      * 内圆宽度
      */
-    private int innerRadio = 10;
+    private int innerRadio = 6;
     /**
      * 进度
      */
@@ -130,6 +130,11 @@ public class CameraProgressBar extends View {
             isLongScale = typedArray.getBoolean(R.styleable.CameraProgressBar_isLongScale, isLongScale);
             maxProgress = typedArray.getInt(R.styleable.CameraProgressBar_maxProgress, maxProgress);
             typedArray.recycle();
+        }else{
+            outerColor=ContextCompat.getColor(context, R.color.outerColor);
+            progressColor=ContextCompat.getColor(context, R.color.progressColor);
+            isLongScale=true;
+
         }
 
         backgroundPaint = new Paint();
@@ -166,7 +171,7 @@ public class CameraProgressBar extends View {
 
             @Override
             public void onLongPress(MotionEvent e) {
-                isLongClick = false;
+                isLongClick = true;
                 postInvalidate();
                 if (CameraProgressBar.this.onProgressTouchListener != null)
                     CameraProgressBar.this.onProgressTouchListener.onLongClick(CameraProgressBar.this);
@@ -247,6 +252,21 @@ public class CameraProgressBar extends View {
             setMeasuredDimension(width, width);
         }
     }
+
+    public int getProgress() {
+        return progress;
+    }
+
+    /**
+     * 还原到初始状态
+     */
+    public void reset() {
+        isLongClick = false;
+        this.progress = 0;
+        this.sweepAngle = 0;
+        postInvalidate();
+    }
+
 
     @Override
     protected void onDraw(Canvas canvas) {

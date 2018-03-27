@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fullscreen_content"
@@ -13,30 +13,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <ImageView
+        android:id="@+id/ivBack"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <RelativeLayout
+
+    <com.vivian.apputil.widget.button.CaptureLayout
+        android:id="@+id/llCapture"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:layout_gravity="bottom" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:padding="10dp"
-            android:src="@mipmap/ic_arrow_down" />
 
-        <com.vivian.apputil.widget.camera.CameraProgressBar
-            android:id="@+id/cameraProgressBar"
-            android:layout_width="60dp"
-
-            android:layout_height="60dp"
-            android:layout_centerInParent="true"
-            app:isLongScale="true" />
-
-    </RelativeLayout>
-
-</RelativeLayout>
+</FrameLayout>
