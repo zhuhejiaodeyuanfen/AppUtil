@@ -1,5 +1,6 @@
 package com.vivian.apputil.view;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import com.vivian.apputil.util.ActivityLauncher;
 import com.vivian.apputil.util.AppPermissionUtil;
 import com.vivian.apputil.util.hintview.ToastUtils;
 import com.vivian.apputil.widget.TitleBar;
+import com.vivian.apputil.widget.dialog.PermissionDialog;
 
 /**
  * 自定义baseActivity 封装一些基本场景
@@ -78,6 +80,47 @@ public abstract class BaseActivity extends AppCompatActivity {
         init();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //每次页面可见的时候需要请求一次存储权限
+        appPermissionUtil.requestPermissions(BaseActivity.this, 2001, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, new AppPermissionUtil.OnPermissionListener() {
+
+            @Override
+            public void onPermissionGranted() {
+
+            }
+
+            @Override
+            public void onPermissionDenied() {
+                showToast("必须开启存储权限才能正常使用");
+                PermissionDialog permissionDialog = new PermissionDialog(mContext);
+                //设置标题
+                permissionDialog.setDialogContent("必须开启权限才能正常使用")
+                        .setSure("确认")
+                        .setStyle(PermissionDialog.DIALOG_NO_CANCEL)
+                        .addOnClick(new PermissionDialog.OnDialogClick() {
+                    @Override
+                    public void onCancel() {
+
+                    }
+
+                    @Override
+                    public void onSure() {
+
+                        appPermissionUtil.startAppSettings(mContext);
+                        finishActivity(mContext);
+
+                    }
+                });
+                //最重要的一步，显示
+                permissionDialog.show();
+
+
+            }
+        });
+
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

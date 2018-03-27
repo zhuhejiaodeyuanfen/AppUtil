@@ -5,17 +5,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center_horizontal"
+
     tools:context="com.vivian.apputil.view.PermissionActivity">
 
     <include layout="@layout/layout_title_bar" />
 
     <TextView
-        android:id="@+id/tvRecord"
+    android:layout_margin="10dp"
+    android:id="@+id/tvRecord"
+    android:gravity="center"
+    android:padding="10dp"
+    android:background="@drawable/theme_corner_button"
+    android:textColor="@color/white"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="录音权限" />
+
+    <TextView
+        android:layout_margin="10dp"
+        android:id="@+id/tvStorage"
+        android:gravity="center"
         android:padding="10dp"
-        android:background="@color/baseThemeColor"
+        android:background="@drawable/theme_corner_button"
         android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="录音权限" />
+        android:text="存储权限" />
+
+    <TextView
+        android:layout_margin="10dp"
+        android:id="@+id/tvCamera"
+        android:gravity="center"
+        android:padding="10dp"
+        android:background="@drawable/theme_corner_button"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="照相机权限" />
 
 </LinearLayout>

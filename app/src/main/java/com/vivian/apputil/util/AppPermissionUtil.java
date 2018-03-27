@@ -66,6 +66,17 @@ public class AppPermissionUtil {
 
 
     /**
+     * 检查用户的权限列表
+     * @param object
+     * @param permission
+     * @return
+     */
+    public boolean checkPermission(Object object, String permission) {
+        return ContextCompat.checkSelfPermission(getActivity(object), permission) == PackageManager.PERMISSION_GRANTED;
+    }
+
+
+    /**
      * 获取请求权限中需要授权的权限
      */
     private List<String> getDeniedPermissions(Object object, String... permissions) {
@@ -137,7 +148,7 @@ public class AppPermissionUtil {
     /**
      * 启动当前应用设置页面
      */
-    private void startAppSettings(Context context) {
+    public void startAppSettings(Context context) {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         intent.setData(Uri.parse("package:" + context.getPackageName()));
         context.startActivity(intent);
