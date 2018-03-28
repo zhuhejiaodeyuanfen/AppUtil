@@ -168,7 +168,7 @@ public class FileUtils {
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();
-//                LogUtils.i(e);
+//                LogUtils.i(PictureQuery);
             } finally {
                 closeCloseable(fos);
             }
@@ -200,6 +200,16 @@ public class FileUtils {
         return newBitmap;
     }
 
+
+    public static boolean checkImageFile(File checkFile) {
+        String fileName = checkFile.getName();
+        String extUpp = fileName.substring(fileName.lastIndexOf(".") + 1).toUpperCase();
+        //根据扩展名判断是否为要求的图片
+        if (!extUpp.matches("^[(JPG)|(PNG)|(GIF)]+$")) {
+            return false;
+        }
+        return true;
+    }
     /**
      * 质量压缩图片
      *

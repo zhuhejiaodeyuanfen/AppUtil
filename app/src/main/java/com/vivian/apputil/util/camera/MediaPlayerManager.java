@@ -59,7 +59,7 @@ public class MediaPlayerManager {
                 }
             });
         } catch (Exception e) {
-//            LogUtils.i(e);
+//            LogUtils.i(PictureQuery);
         }
     }
 
@@ -76,7 +76,7 @@ public class MediaPlayerManager {
                 mPlayer = null;
             }
         } catch (Exception e) {
-//            LogUtils.i(e);
+//            LogUtils.i(PictureQuery);
         }
     }
 }

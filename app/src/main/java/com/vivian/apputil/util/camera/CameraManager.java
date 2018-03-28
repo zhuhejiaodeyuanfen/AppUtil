@@ -92,7 +92,7 @@ public class CameraManager {
                 initCameraParameters(cameraFacing, width, height);
                 mCamera.startPreview();
             } catch (Exception e) {
-//                LogUtils.i(e);
+//                LogUtils.i(PictureQuery);
                 if (mCamera != null) {
                     mCamera.release();
                     mCamera = null;
@@ -115,7 +115,7 @@ public class CameraManager {
             }
             mCamera.startPreview();
         } catch (Exception e) {
-//            LogUtils.i(e);
+//            LogUtils.i(PictureQuery);
             if (mCamera != null) {
                 mCamera.release();
                 mCamera = null;
@@ -135,7 +135,7 @@ public class CameraManager {
                 mCamera.release();
                 mCamera = null;
             } catch (Exception e) {
-//                LogUtils.i(e);
+//                LogUtils.i(PictureQuery);
                 if (mCamera != null) {
                     mCamera.release();
                     mCamera = null;
@@ -310,7 +310,7 @@ public class CameraManager {
                 mMediaRecorder.stop();
             } catch (Exception e) {
                 e.printStackTrace();
-//                LogUtils.i(e);
+//                LogUtils.i(PictureQuery);
             }
 
         }
@@ -325,7 +325,7 @@ public class CameraManager {
                 mCamera.lock();
             } catch (Exception e) {
                 e.printStackTrace();
-//                LogUtils.i(e);
+//                LogUtils.i(PictureQuery);
             }
         }
     }

@@ -53,6 +53,9 @@ public class HomeActivity extends BaseActivity {
                     case 1:
                         launcher(mContext, WeChatActivity.class);
                         break;
+                    case 8:
+                        launcher(mContext, PhotoListActivity.class);
+                        break;
                     case 9:
                         launcher(mContext, MyCameraActivity.class);
                         break;
