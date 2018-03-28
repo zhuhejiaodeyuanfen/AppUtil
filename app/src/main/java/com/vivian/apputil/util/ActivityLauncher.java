@@ -3,6 +3,7 @@ package com.vivian.apputil.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 /**
  * Created by vivianWQ on 2018/3/22
@@ -22,4 +23,19 @@ public class ActivityLauncher {
         context.startActivity(intent);
     }
 
+    public static void launcherExtras(Context context, Class<?> targetActivity, Bundle extras) {
+        Intent intent = new Intent(context, targetActivity);
+        if (null != extras) {
+            intent.putExtras(extras);
+        }
+        context.startActivity(intent);
+    }
+
+    public static void launcherResult(int requestCode, Context context, Class<? extends Activity> targetActivity, Bundle extras) {
+        Intent intent = new Intent(context, targetActivity);
+        if (null != extras) {
+            intent.putExtras(extras);
+        }
+        ((Activity) context).startActivityForResult(intent, requestCode);
+    }
 }

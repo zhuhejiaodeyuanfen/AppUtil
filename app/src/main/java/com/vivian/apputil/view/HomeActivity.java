@@ -8,6 +8,7 @@ import android.view.View;
 import com.vivian.apputil.R;
 import com.vivian.apputil.adapter.BaseRecyclerViewAdapter;
 import com.vivian.apputil.adapter.HomeListAdapter;
+import com.vivian.apputil.view.photo.SelectPhotoActivity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -54,7 +55,7 @@ public class HomeActivity extends BaseActivity {
                         launcher(mContext, WeChatActivity.class);
                         break;
                     case 8:
-                        launcher(mContext, PhotoListActivity.class);
+                        launcher(mContext, SelectPhotoActivity.class);
                         break;
                     case 9:
                         launcher(mContext, MyCameraActivity.class);

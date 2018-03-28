@@ -27,12 +27,14 @@ public class PhotoRvAdapter extends BaseRecyclerViewAdapter<LocalPhotoBean> {
         LocalPhotoBean item = getItem(position);
         ImageView ivPhoto = (ImageView) holder.getView(R.id.ivPhoto, false);
         TextView tvIndex = (TextView) holder.getView(R.id.tvIndex, true);
-        if(item.isSelect()&&item.getIndex()>-1)
-        {
-            tvIndex.setText(""+item.getIndex());
-        }else{
+        if (item.isSelect() && item.getIndex() > -1) {
+            tvIndex.setText("" + item.getIndex());
+            tvIndex.setBackgroundResource(R.drawable.blue_corner_select_button);
+        } else {
             tvIndex.setText("");
+            tvIndex.setBackgroundResource(R.drawable.white_corner_unselect_button);
         }
+        holder.getView(R.id.rlBase, true);
         Glide.with(context).load(item.getUrl())
                 .override(100, 100)
                 .into(ivPhoto);

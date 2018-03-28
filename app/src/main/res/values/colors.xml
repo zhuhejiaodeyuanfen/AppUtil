@@ -11,4 +11,5 @@
     <color name="outerColor">#e9e9e9</color>
 
     <color name="progressColor">@color/baseThemeColor</color>
+    <color name="black_444444">#F3F3F3</color>
 </resources>

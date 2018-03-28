@@ -1,5 +1,6 @@
 package com.vivian.apputil.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import com.vivian.apputil.bean.LocalPhotoBean;
 import com.vivian.apputil.util.FullyGridLayoutManager;
 import com.vivian.apputil.util.picture.PictureQuery;
 import com.vivian.apputil.util.picture.ipicture.IPictureQuery;
+import com.vivian.apputil.view.photo.PhotoDetailViewActivity;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,8 +24,17 @@ import java.util.List;
 public class PhotoListActivity extends BaseActivity {
     private RecyclerView rvPhoto;
     private PhotoRvAdapter photoRvAdapter;
-    private int checkSum;
-    private LinkedList<LocalPhotoBean> selectList;
+    public static int limit;
+    public static LinkedList<LocalPhotoBean> selectList;
+    public static List<LocalPhotoBean> localPhotoBeans;
+    public static final int RESULT_PHOTO = 2008;
+    public static final int RETURN_PHOTO_CODE = 2010;
+
+    public static void launcherPhotoList(int limit, BaseActivity baseActivity) {
+        Bundle args = new Bundle();
+        args.putInt("limit", limit);
+        baseActivity.launcher(baseActivity, PhotoListActivity.class, args);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +50,10 @@ public class PhotoListActivity extends BaseActivity {
 
     }
 
+
     @Override
     public void initEventData() {
+        limit = getIntent().getIntExtra("limit", 12);
         photoRvAdapter = new PhotoRvAdapter(mContext);
         rvPhoto.setLayoutManager(new FullyGridLayoutManager(mContext, 4, GridLayoutManager.VERTICAL, false));
         rvPhoto.setAdapter(photoRvAdapter);
@@ -49,7 +62,7 @@ public class PhotoListActivity extends BaseActivity {
 
     }
 
-    public void resortList(int fromIndex) {
+    public static void resortList(int fromIndex) {
         for (int i = fromIndex; i < selectList.size(); i++) {
             selectList.get(i).setIndex(i + 1);
         }
@@ -70,13 +83,18 @@ public class PhotoListActivity extends BaseActivity {
                             photoRvAdapter.notifyDataSetChanged();
                         } else {
                             //list执行增加操作
-                            item.setSelect(true);
-                            item.setIndex(selectList.size() + 1);
-                            selectList.add(item);
-                            photoRvAdapter.notifyDataSetChanged();
-
+                            if (selectList.size() < limit) {
+                                item.setSelect(true);
+                                item.setIndex(selectList.size() + 1);
+                                selectList.add(item);
+                                photoRvAdapter.notifyDataSetChanged();
+                            } else {
+                                showToast("您已超过最大选择限制!");
+                            }
                         }
-
+                        break;
+                    case R.id.rlBase:
+                        PhotoDetailViewActivity.launcherDetailView(position, mContext);
                         break;
                 }
             }
@@ -90,6 +108,7 @@ public class PhotoListActivity extends BaseActivity {
             @Override
             public void getAlbumSuccess(List<LocalPhotoBean> lists) {
                 photoRvAdapter.addData(lists);
+                localPhotoBeans = lists;
 
             }
 
@@ -99,5 +118,13 @@ public class PhotoListActivity extends BaseActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RETURN_PHOTO_CODE) {
+            photoRvAdapter.notifyDataSetChanged();
+        }
     }
 }

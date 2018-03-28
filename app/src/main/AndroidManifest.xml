@@ -18,7 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.HomeActivity"
             android:screenOrientation="portrait">
@@ -38,7 +40,15 @@
         <activity
             android:name=".view.FullscreenCameraActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".view.PhotoListActivity"></activity>
+        <activity
+            android:name=".view.PhotoListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.photo.PhotoDetailViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.photo.SelectPhotoActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

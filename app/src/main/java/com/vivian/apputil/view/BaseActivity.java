@@ -21,7 +21,7 @@ import com.vivian.apputil.widget.dialog.PermissionDialog;
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
-    public Activity mContext;
+    public BaseActivity mContext;
     private View mContentView;
     public AppPermissionUtil appPermissionUtil;
 
@@ -51,6 +51,20 @@ public abstract class BaseActivity extends AppCompatActivity {
         ActivityLauncher.activityLauncher(context, targetActivity);
     }
 
+    public static void launcher(Context context, Class<?> targetActivity, Bundle args) {
+        ActivityLauncher.launcherExtras(context, targetActivity, args);
+    }
+
+    /**
+     * 启动一个activity
+     *
+     * @param requestCode
+     * @param context
+     * @param targetActivity
+     */
+    public static void launcherResult(int requestCode, Context context, Class<? extends Activity> targetActivity,Bundle args) {
+        ActivityLauncher.launcherResult(requestCode, context, targetActivity, args);
+    }
     /**
      * 关闭activity 使用默认动画
      *
@@ -59,6 +73,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     public static void finishActivity(Context context) {
         ActivityLauncher.finishActivity(context);
     }
+
+
 
 
     /**
@@ -100,19 +116,19 @@ public abstract class BaseActivity extends AppCompatActivity {
                         .setSure("确认")
                         .setStyle(PermissionDialog.DIALOG_NO_CANCEL)
                         .addOnClick(new PermissionDialog.OnDialogClick() {
-                    @Override
-                    public void onCancel() {
+                            @Override
+                            public void onCancel() {
 
-                    }
+                            }
 
-                    @Override
-                    public void onSure() {
+                            @Override
+                            public void onSure() {
 
-                        appPermissionUtil.startAppSettings(mContext);
-                        finishActivity(mContext);
+                                appPermissionUtil.startAppSettings(mContext);
+                                finishActivity(mContext);
 
-                    }
-                });
+                            }
+                        });
                 //最重要的一步，显示
                 permissionDialog.show();
 
