@@ -10,6 +10,9 @@
     <!-- 读sdk -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <!-- 联系人权限 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:name=".AppApplication"
         android:allowBackup="true"
@@ -50,7 +53,8 @@
             android:name=".view.photo.SelectPhotoActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".view.photo.PhotoEditActivity" />
-        <activity android:name=".view.VideoPlayChoiceActivity"></activity>
+        <activity android:name=".view.VideoPlayChoiceActivity" />
+        <activity android:name=".view.ContactListActivity"></activity>
     </application>
 
 </manifest>

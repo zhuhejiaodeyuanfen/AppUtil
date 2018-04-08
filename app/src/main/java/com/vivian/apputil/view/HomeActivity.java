@@ -57,6 +57,9 @@ public class HomeActivity extends BaseActivity {
                     case 2:
                         launcher(mContext, VideoPlayChoiceActivity.class);
                         break;
+                    case 7:
+                        launcher(mContext, ContactListActivity.class);
+                        break;
                     case 8:
                         launcher(mContext, SelectPhotoActivity.class);
                         break;

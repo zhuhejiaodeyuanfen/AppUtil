@@ -13,4 +13,6 @@ public class AppConstants {
     public static final int REQUEST_PHOTO=2009;
 
     public static final int REQUEST_STORAGE=2010;
+
+    public static final int REQUEST_CONTACT=2011;
 }
