@@ -10,7 +10,7 @@ import com.vivian.apputil.util.image.GlideUtils;
 
 /**
  * 课程编辑的要求页面
- * 少于8张 显示继续添加的图标
+ * 少于12张 显示继续添加的图标
  */
 public class GridImageAdapter extends BaseRecyclerViewAdapter<LocalPhotoBean> {
     public static final int TYPE_CAMERA = 1;
@@ -64,6 +64,7 @@ public class GridImageAdapter extends BaseRecyclerViewAdapter<LocalPhotoBean> {
             GlideUtils.loadImageView(context, item.getUrl(), mImg);
         }
 
+        holder.getView(R.id.rlBase, true);
     }
 
     private boolean isShowAddItem(int position) {

@@ -1,5 +1,6 @@
 package com.vivian.apputil.view.photo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,10 +9,13 @@ import android.view.View;
 import com.vivian.apputil.R;
 import com.vivian.apputil.adapter.BaseRecyclerViewAdapter;
 import com.vivian.apputil.adapter.GridImageAdapter;
+import com.vivian.apputil.bean.LocalPhotoBean;
 import com.vivian.apputil.util.FullyGridLayoutManager;
 import com.vivian.apputil.view.BaseActivity;
 import com.vivian.apputil.view.PhotoListActivity;
 import com.vivian.apputil.widget.dialog.FromBottomDialog;
+
+import java.util.ArrayList;
 
 import static com.vivian.apputil.adapter.GridImageAdapter.TYPE_CAMERA;
 
@@ -48,7 +52,6 @@ public class SelectPhotoActivity extends BaseActivity {
                 switch (view.getId()) {
                     case R.id.fiv:
                         if (gridImageAdapter.getItemViewType(position) == TYPE_CAMERA) {
-                            showToast("添加信息");
                             new FromBottomDialog(mContext)
                                     .addOption("拍照", new FromBottomDialog.OnOptionClickListener() {
                                         @Override
@@ -59,7 +62,7 @@ public class SelectPhotoActivity extends BaseActivity {
                                     .addOption("从相册选择", new FromBottomDialog.OnOptionClickListener() {
                                         @Override
                                         public void onOptionClick() {
-                                            PhotoListActivity.launcherPhotoList(12,mContext);
+                                            PhotoListActivity.launcherPhotoList(9-gridImageAdapter.getItemCount()+1, mContext);
 
                                         }
                                     })
@@ -76,5 +79,16 @@ public class SelectPhotoActivity extends BaseActivity {
     @Override
     public void loadData() {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == PhotoListActivity.RETURN_PHOTO_CODE) {
+            ArrayList<LocalPhotoBean> imgList = (ArrayList<LocalPhotoBean>) data.getSerializableExtra("imgList");
+            if (imgList != null && imgList.size() > 0) {
+                gridImageAdapter.addData(imgList);
+            }
+        }
     }
 }

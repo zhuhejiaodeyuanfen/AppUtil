@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.vivian.apputil.view.VideoPlayChoiceActivity">
+
+    <include layout="@layout/layout_title_bar" />
+
+
+    <TextView
+        android:id="@+id/tvLocal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffc"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="调用本地视频播放"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvAppLocal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffc"
+        android:gravity="center"
+        android:padding="10dp"
+        android:paddingBottom="5dp"
+        android:text="调用app内部视频播放"
+        android:textSize="14sp" />
+
+</LinearLayout>

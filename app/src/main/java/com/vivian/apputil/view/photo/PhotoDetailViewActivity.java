@@ -128,7 +128,6 @@ public class PhotoDetailViewActivity extends BaseActivity {
     @Override
     public void finish() {
         setResult(RETURN_PHOTO_CODE);
-
         super.finish();
     }
 

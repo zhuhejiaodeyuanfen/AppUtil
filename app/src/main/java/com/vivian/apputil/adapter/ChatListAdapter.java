@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.vivian.apputil.R;
 import com.vivian.apputil.bean.WeChatBean;
 import com.vivian.apputil.util.AppDateUtil;
+import com.vivian.apputil.util.EmoJiUtils;
 
 /**
  * Created by vivianWQ on 2018/3/23
@@ -29,9 +30,21 @@ public class ChatListAdapter extends MultiRecyclerViewAdapter<WeChatBean> {
 
     public static final int ITEM_MY_IMAGE = 0;
     public static final int ITEM_MY_TEXT = 1;
+    private Context context;
+
+    /**
+     * 显示EmoJi表情
+     *
+     */
+    private void showEmoJi(TextView textView,Context mContext) {
+        String body = textView.getText().toString();
+        StringBuilder stringBuilder = new StringBuilder(body);
+        textView.setText(EmoJiUtils.parseEmoJi(0, mContext, stringBuilder.toString()));
+    }
 
     public ChatListAdapter(Context context) {
         super(context);
+        this.context=context;
     }
 
     @Override
@@ -40,6 +53,9 @@ public class ChatListAdapter extends MultiRecyclerViewAdapter<WeChatBean> {
         if (getItemViewType(position) == ITEM_MY_TEXT) {
             TextView tvContent = (TextView) holder.getView(R.id.tvContent, false);
             tvContent.setText(item.getTextMsg());
+            showEmoJi(tvContent,context);
+
+
             TextView tvTime = (TextView) holder.getView(R.id.tvTime, false);
             if (position == 0)
                 tvTime.setText(AppDateUtil.getNewChatTime(item.getSendTime().getTime(), 0));

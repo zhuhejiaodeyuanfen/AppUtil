@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.vivian.apputil.R;
 import com.vivian.apputil.adapter.BaseRecyclerViewAdapter;
@@ -25,6 +26,7 @@ public class PhotoListActivity extends BaseActivity {
     private RecyclerView rvPhoto;
     private PhotoRvAdapter photoRvAdapter;
     public static int limit;
+    private TextView tvFinish;
     public static LinkedList<LocalPhotoBean> selectList;
     public static List<LocalPhotoBean> localPhotoBeans;
     public static final int RESULT_PHOTO = 2008;
@@ -33,7 +35,7 @@ public class PhotoListActivity extends BaseActivity {
     public static void launcherPhotoList(int limit, BaseActivity baseActivity) {
         Bundle args = new Bundle();
         args.putInt("limit", limit);
-        baseActivity.launcher(baseActivity, PhotoListActivity.class, args);
+        baseActivity.launcherResult(RESULT_PHOTO, baseActivity, PhotoListActivity.class, args);
     }
 
     @Override
@@ -46,6 +48,7 @@ public class PhotoListActivity extends BaseActivity {
     public void initView() {
         initTitle("相册");
         rvPhoto = findViewById(R.id.rvPhoto);
+        tvFinish = findViewById(R.id.tvFinish);
 
 
     }
@@ -58,8 +61,6 @@ public class PhotoListActivity extends BaseActivity {
         rvPhoto.setLayoutManager(new FullyGridLayoutManager(mContext, 4, GridLayoutManager.VERTICAL, false));
         rvPhoto.setAdapter(photoRvAdapter);
         selectList = new LinkedList<>();
-
-
     }
 
     public static void resortList(int fromIndex) {
@@ -70,6 +71,17 @@ public class PhotoListActivity extends BaseActivity {
 
     @Override
     public void bindEvent() {
+        //完成后发送
+        tvFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.putExtra("imgList", selectList);
+                setResult(RETURN_PHOTO_CODE, intent);
+                finishActivity(mContext);
+
+            }
+        });
         photoRvAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.IOnItemClick() {
             @Override
             public void onItemClick(View view, int position) {

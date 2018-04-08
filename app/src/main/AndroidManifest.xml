@@ -48,7 +48,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.photo.SelectPhotoActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".view.photo.PhotoEditActivity" />
+        <activity android:name=".view.VideoPlayChoiceActivity"></activity>
     </application>
 
 </manifest>

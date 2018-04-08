@@ -62,9 +62,10 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @param context
      * @param targetActivity
      */
-    public static void launcherResult(int requestCode, Context context, Class<? extends Activity> targetActivity,Bundle args) {
+    public static void launcherResult(int requestCode, Context context, Class<? extends Activity> targetActivity, Bundle args) {
         ActivityLauncher.launcherResult(requestCode, context, targetActivity, args);
     }
+
     /**
      * 关闭activity 使用默认动画
      *
@@ -73,8 +74,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     public static void finishActivity(Context context) {
         ActivityLauncher.finishActivity(context);
     }
-
-
 
 
     /**
@@ -100,41 +99,29 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         //每次页面可见的时候需要请求一次存储权限
-        appPermissionUtil.requestPermissions(BaseActivity.this, 2001, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, new AppPermissionUtil.OnPermissionListener() {
+        if (appPermissionUtil.checkPermission(BaseActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == false) {
+            PermissionDialog permissionDialog = new PermissionDialog(mContext);
+            //设置标题
+            permissionDialog.setDialogContent("必须开启存储权限才能正常使用")
+                    .setSure("去开启")
+                    .setStyle(PermissionDialog.DIALOG_NO_CANCEL)
+                    .addOnClick(new PermissionDialog.OnDialogClick() {
+                        @Override
+                        public void onCancel() {
 
-            @Override
-            public void onPermissionGranted() {
+                        }
 
-            }
+                        @Override
+                        public void onSure() {
 
-            @Override
-            public void onPermissionDenied() {
-                showToast("必须开启存储权限才能正常使用");
-                PermissionDialog permissionDialog = new PermissionDialog(mContext);
-                //设置标题
-                permissionDialog.setDialogContent("必须开启权限才能正常使用")
-                        .setSure("确认")
-                        .setStyle(PermissionDialog.DIALOG_NO_CANCEL)
-                        .addOnClick(new PermissionDialog.OnDialogClick() {
-                            @Override
-                            public void onCancel() {
+                            appPermissionUtil.startAppSettings(mContext);
+                            finishActivity(mContext);
 
-                            }
-
-                            @Override
-                            public void onSure() {
-
-                                appPermissionUtil.startAppSettings(mContext);
-                                finishActivity(mContext);
-
-                            }
-                        });
-                //最重要的一步，显示
-                permissionDialog.show();
-
-
-            }
-        });
+                        }
+                    });
+            //最重要的一步，显示
+            permissionDialog.show();
+        }
 
     }
 

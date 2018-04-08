@@ -8,7 +8,6 @@
     tools:context="com.vivian.apputil.view.photo.PhotoDetailViewActivity">
 
 
-
     <com.vivian.apputil.widget.recyclerviewpagerlib.RecyclerViewPager
         android:id="@+id/rvPage"
         android:layout_width="match_parent"
@@ -17,31 +16,30 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#cc000000"
-      >
+        android:background="#cc000000">
 
 
         <TextView
             android:id="@+id/tvLeft"
-            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:padding="10dp"
-            android:drawableLeft="@mipmap/btn_back_white" />
+            android:drawableLeft="@mipmap/btn_back_white"
+            android:padding="10dp" />
 
 
         <TextView
             android:id="@+id/tvRight"
-            android:gravity="center"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:textColor="@color/white"
             android:background="@drawable/white_corner_unselect_button"
+            android:gravity="center"
+            android:textColor="@color/white"
             android:textSize="16sp" />
 
 

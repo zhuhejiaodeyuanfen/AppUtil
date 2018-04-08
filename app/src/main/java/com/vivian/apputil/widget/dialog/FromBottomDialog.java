@@ -31,7 +31,8 @@ public class FromBottomDialog extends Dialog {
     private Context context;
     private OnDialogClick onDialogClick;
     private LinearLayout llContent;
-    public List<Option> options= new ArrayList<>();
+    public List<Option> options = new ArrayList<>();
+    private TextView tvCancel;
 
     public FromBottomDialog(Context context) {
         super(context);
@@ -54,6 +55,7 @@ public class FromBottomDialog extends Dialog {
         getWindow().setGravity(Gravity.BOTTOM);
 
         llContent = findViewById(R.id.llContent);
+        tvCancel=findViewById(R.id.tvCancel);
         //取消的点击事件
 
         setOnShowListener(new OnShowListener() {
@@ -96,6 +98,7 @@ public class FromBottomDialog extends Dialog {
             optionText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    dismiss();
                     option.getListener().onOptionClick();
                 }
             });
@@ -109,7 +112,16 @@ public class FromBottomDialog extends Dialog {
                 llContent.addView(divider, params);
             }
 
+
+
         }
+        //用户取消回调,直接dismiss
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
 
         super.show();
     }

@@ -25,6 +25,7 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:background="@drawable/btn_voice_pressed" />
 
 
@@ -32,10 +33,72 @@
             android:id="@+id/etInput"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:imeOptions="actionSend" />
+            android:background="@drawable/white_chat_corner_button"
+            android:imeOptions="actionSend"
+            android:inputType="text"
+            android:padding="5dp"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/ivSwitchExpress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:background="@mipmap/tab_chat_expression"
+            android:padding="4dp" />
+
+        <ImageView
+            android:id="@+id/ivAddTab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:background="@mipmap/tab_chat_add"
+            android:padding="4dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:id="@+id/viewExpress"
+        android:layout_width="match_parent"
+        android:layout_height="213dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="3dp"
+             />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+
+            <TextView
+                android:id="@+id/tvSend"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:background="#ffc"
+                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:text="发送"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
 
 
     </LinearLayout>
+
 
 </LinearLayout>
